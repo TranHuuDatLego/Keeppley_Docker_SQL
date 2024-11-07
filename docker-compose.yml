@@ -2,14 +2,14 @@ version: '3.8'
 
 services:
   mysql:
-    image: mysql:8.0
+    image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: lego
       MYSQL_DATABASE: keeppley_shop
       MYSQL_USER: keeppley
       MYSQL_PASSWORD: lego
     ports:
-      - "3307:3306"
+      - "3306:3306"
     networks:
       - my-network
 
@@ -18,20 +18,32 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3002:3000"
     restart: unless-stopped
     environment:
       DB_HOST: mysql
-      DB_PORT: 3306 # Đây là cổng của MySQL trong container `database-mysql`
+      DB_PORT: 3306
       DB_USER: keeppley
       DB_PASSWORD: lego
       DB_NAME: keeppley_shop
+    depends_on:
+      - mysql
+    networks:
+      - my-network
+    command: sh -c "sleep 10 && npm start" 
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mysql  # Tên dịch vụ MySQL để phpMyAdmin có thể kết nối
+      PMA_USER: keeppley
+      PMA_PASSWORD: lego
+    ports:
+      - "8080:80"  # phpMyAdmin sẽ được truy cập tại http://localhost:8080
+    depends_on:
+      - mysql
     networks:
       - my-network
 
 networks:
   my-network:
-    driver: bridge
-
-volumes:
-  mysql_data:

@@ -7,11 +7,11 @@
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
-CREATE DATABASE keeppley_shop;
-USE keeppley_shop
+-- CREATE DATABASE keeppley_shop;
+-- USE keeppley_shop
 
-ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';
-FLUSH PRIVILEGES;
+-- ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';
+-- FLUSH PRIVILEGES;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;

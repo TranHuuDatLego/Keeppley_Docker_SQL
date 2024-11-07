@@ -4,6 +4,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session'); // Import express-session
 
+// npm i body-parser dotenv ejs express express-session multer mysql nodemon sequelize sequelize-cli session
 
 // Khởi tạo ứng dụng Express
 const app = express();
