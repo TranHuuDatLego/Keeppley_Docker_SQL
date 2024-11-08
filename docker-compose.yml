@@ -18,7 +18,9 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3002:3000"
+      - "${PORT:-3000}:${PORT:-3000}"  # Mặc định cổng là 3000 nếu PORT không được đặt
+    env_file:
+      - .env  # Nạp biến môi trường từ file .env nếu có
     restart: unless-stopped
     environment:
       DB_HOST: mysql

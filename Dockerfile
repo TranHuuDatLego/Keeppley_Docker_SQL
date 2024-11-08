@@ -13,8 +13,8 @@ RUN npm install
 # 5. Sao chép toàn bộ mã nguồn vào container
 COPY . .
 
-# 6. Mở cổng (ví dụ: 3000)
-EXPOSE 3000
+# 6. Mở cổng (ví dụ: 3002)
+EXPOSE 3002
 
 # 7. Chạy ứng dụng
 CMD ["npm", "start"]
