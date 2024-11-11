@@ -2,7 +2,7 @@
 const multer = require('multer');
 const mysql = require('mysql');
 const path = require('path');
-
+const conn = require('./connectDB'); // Đảm bảo bạn đã kết nối với cơ sở dữ liệu
 // Cấu hình thư mục upload
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -15,21 +15,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Kết nối MySQL
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'keeppley-shop'
-});
-
-db.connect((err) => {
-    if (err) {
-        console.error('Kết nối thất bại: ', err.message);
-        return;
-    }
-    console.log('Kết nối MySQL thành công!');
-});
 
 // Hàm xử lý yêu cầu cập nhật thông tin người dùng
 const changeGeneral = (req, res) => {
@@ -44,7 +29,7 @@ const changeGeneral = (req, res) => {
         const defaultImagePath = path.basename(defaultImage);
         const sqlUpdateImage = `UPDATE user SET image = ? WHERE userID = ?`;
 
-        db.query(sqlUpdateImage, [defaultImagePath, userID], (err) => {
+        conn.query(sqlUpdateImage, [defaultImagePath, userID], (err) => {
             if (err) {
                 console.error('Lỗi:', err.message);
                 return res.status(500).send('Có lỗi xảy ra.');
@@ -54,7 +39,7 @@ const changeGeneral = (req, res) => {
         const imagePath = req.file.filename;
         const sqlUpdateImage = `UPDATE user SET image = ? WHERE userID = ?`;
 
-        db.query(sqlUpdateImage, [imagePath, userID], (err) => {
+        conn.query(sqlUpdateImage, [imagePath, userID], (err) => {
             if (err) {
                 console.error('Lỗi:', err.message);
                 return res.status(500).send('Có lỗi xảy ra.');
@@ -65,7 +50,7 @@ const changeGeneral = (req, res) => {
     // Cập nhật thông tin user
     const sqlUpdateUser = `UPDATE user SET userName = ?, email = ? WHERE userID = ?`;
 
-    db.query(sqlUpdateUser, [newUserName, newEmail, userID], (err) => {
+    conn.query(sqlUpdateUser, [newUserName, newEmail, userID], (err) => {
         if (err) {
             console.error('Lỗi:', err.message);
             return res.status(500).send('Có lỗi xảy ra.');
@@ -73,7 +58,7 @@ const changeGeneral = (req, res) => {
 
         // Lấy thông tin mới nhất của người dùng từ cơ sở dữ liệu
         const sqlSelectUser = `SELECT * FROM user WHERE userID = ?`;
-        db.query(sqlSelectUser, [userID], (err, result) => {
+        conn.query(sqlSelectUser, [userID], (err, result) => {
             if (err) {
                 console.error('Lỗi:', err.message);
                 return res.status(500).send('Có lỗi xảy ra.');
