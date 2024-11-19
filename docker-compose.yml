@@ -18,7 +18,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "${PORT:-3000}:${PORT:-3000}"  # Mặc định cổng là 3000 nếu PORT không được đặt
+      - "${PORT:-3002}:${PORT:-3002}"  # Mặc định cổng là 3002 nếu PORT không được đặt
     env_file:
       - .env  # Nạp biến môi trường từ file .env nếu có
     restart: unless-stopped
